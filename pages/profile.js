@@ -1,19 +1,23 @@
-import { getSession } from "next-auth/react";
 import UserProfile from "../components/profile/user-profile";
+import { getSession } from "next-auth/react";
 
 function ProfilePage() {
   return <UserProfile />;
 }
 
 export async function getServerSideProps(context) {
-  const session = await getSession({ req: context.req });
+  const session = await getSession(context);
   if (!session) {
     return {
-      redirect: { destination: "/auth", permanent: false },
+      redirect: {
+        destination: "/auth",
+        permanent: false,
+      },
     };
   }
+
   return {
-    props: { session: session },
+    props: { session },
   };
 }
 
