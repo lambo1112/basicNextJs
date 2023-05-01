@@ -3,7 +3,7 @@ import { connectToDatabase } from "@/lib/db";
 import NextAuth from "next-auth/next";
 import Credentials from "next-auth/providers/credentials";
 import CredentialsProvider from "next-auth/providers/credentials";
-export default NextAuth({
+export const authOptions = {
   // Configure session options (for credentials you must use JWT)
   session: {
     strategy: "jwt",
@@ -11,7 +11,7 @@ export default NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
   // Configure one or more authentication providers
   providers: [
-    Credentials({
+    CredentialsProvider({
       async authorize(credentials, req) {
         // Add logic here to look up the user from the credentials supplied
         const client = await connectToDatabase();
@@ -42,4 +42,6 @@ export default NextAuth({
       },
     }),
   ],
-});
+};
+
+export default NextAuth(authOptions);
